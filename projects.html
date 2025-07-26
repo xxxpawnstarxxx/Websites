@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, 
+                #000000 0%, 
+                #330000 25%, 
+                #660000 50%, 
+                #990000 75%, 
+                #CC0000 100%
+            );
+            background-size: 400% 400%;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            animation: 
+                fadeIn 1.5s ease-in-out,
+                gradientAnimation 15s ease infinite;
+            min-height: 100vh;
+            cursor: none; /* Hide default cursor */
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes cursorMotionBlur {
+            0% { 
+                filter: blur(0px) brightness(100%);
+                opacity: 1;
+            }
+            50% { 
+                filter: blur(10px) brightness(150%);
+                opacity: 0.7;
+            }
+            100% { 
+                filter: blur(0px) brightness(100%);
+                opacity: 1;
+            }
+        }
+        .custom-cursor {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: rgba(255, 0, 0, 0.8);
+            pointer-events: none;
+            z-index: 9999;
+            will-change: transform, filter;
+            transition: transform 0.05s linear;
+        }
+        .custom-cursor.moving {
+            animation: cursorMotionBlur 0.1s linear;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+        .project {
+            background: rgba(17, 17, 17, 0.7);
+            padding: 20px;
+            border-radius: 5px; /* More square corners */
+            box-shadow: 
+                0 0 10px rgba(255, 0, 0, 0.5),  /* Red glow */
+                inset 0 0 15px rgba(255, 0, 0, 0.3),  /* Inner red glow */
+                0 4px 6px rgba(0, 0, 0, 0.1);  /* Subtle drop shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: none;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1 / 1; /* Make projects more square */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .project::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.05), 
+                transparent
+            );
+            transform: rotate(-45deg);
+            pointer-events: none;
+        }
+        .project:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 20px rgba(255, 0, 0, 0.8),  /* Enhanced red glow */
+                inset 0 0 25px rgba(255, 0, 0, 0.5),  /* Enhanced inner glow */
+                0 6px 8px rgba(0, 0, 0, 0.2);  /* Slightly larger drop shadow */
+        }
+        .project h2 {
+            color: #fff;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        #background-music {
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div id="custom-cursor" class="custom-cursor"></div>
+    <div class="container">
+        <h1>Projects i work one/affiliated(or kinda affiliated) with</h1>
+        <div class="projects">
+            <div class="project" onclick="window.location.href='https://executors-lime.vercel.app/'">
+                <h2>Best executor hub</h2>
+            </div>
+            <div class="project" onclick="window.location.href='https://random-image-seven.vercel.app/'">
+                <h2>Useful text</h2>
+            </div>
+            <div class="project" onclick="window.location.href='https://yourvercelproject3.vercel.app'">
+                <h2>Script Hub Website(Work in Progress)</h2>
+            </div>
+            <div class="project" onclick="window.location.href='https://discord.gg/tw4SFgZzZa'">
+                <h2>Best cracked scripts</h2>
+            </div>
+            <div class="project" onclick="window.location.href='https://pastebin.com/u/Josiahiscool73'">
+                <h2>my pastebin(im trying to post more often on here)</h2>
+            </div>
+            <div class="project" onclick="window.location.href='https://discord.gg/kppXu4aqMm'">
+                <h2>XSPY</h2>
+            </div>
+            <div class="project" onclick="window.location.href='https://pastebin.com/raw/WLGuRbnV'">
+                <h2>Guide to exploiting for new people</h2>
+            </div>
+            <div class="project" onclick="window.location.href='https://raw.githubusercontent.com/drixpyyy/school-Chromebook-bible/refs/heads/main/the%20scb'">
+                <h2>School Chromebook Bible</h2>
+            </div>
+        </div>
+        <div class="icons">
+            <a href="https://discord.gg/EmdR3qgn8s" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="https://www.youtube.com/@ewewewewewewewewewewewewe" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://roblox.com" target="_blank"><i class="fab fa-roblox"></i></a>
+        </div>
+        <div class="music-control">
+            <label for="volume">Music(works sometimes)</label>
+            <input type="range" id="volume" min="0" max="100" value="50">
+        </div>
+    </div>
+
+    <div id="background-music"></div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let player;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('background-music', {
+                width: '0',
+                height: '0',
+                videoId: 'Uq7kyf1T_lk',
+                playerVars: {
+                    'autoplay': 1,
+                    'loop': 1,
+                    'playlist': 'Uq7kyf1T_lk',
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'iv_load_policy': 3,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'showinfo': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onError': onPlayerError
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.setVolume(50);
+            event.target.playVideo();
+        }
+
+        function onPlayerError(event) {
+            console.error('YouTube Player Error:', event);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const customCursor = document.getElementById('custom-cursor');
+            const volumeControl = document.getElementById('volume');
+            
+            if (!customCursor) {
+                console.error('Cursor element not found');
+                return;
+            }
+
+            let lastX = 0, lastY = 0;
+            let moveTimeout;
+
+            const handleMouseMove = (e) => {
+                const speed = Math.abs(e.clientX - lastX) + Math.abs(e.clientY - lastY);
+                
+                customCursor.style.left = e.clientX + 'px';
+                customCursor.style.top = e.clientY + 'px';
+
+                if (speed > 5) {
+                    customCursor.classList.add('moving');
+                    
+                    clearTimeout(moveTimeout);
+                    moveTimeout = setTimeout(() => {
+                        customCursor.classList.remove('moving');
+                    }, 100);
+                }
+
+                lastX = e.clientX;
+                lastY = e.clientY;
+            };
+
+            document.addEventListener('mousemove', handleMouseMove);
+
+            // Volume control
+            if (volumeControl) {
+                volumeControl.addEventListener('input', function() {
+                    if (player) {
+                        player.setVolume(this.value);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
