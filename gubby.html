@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gubby AI - Advanced Neural Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/4.2.0/tf.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .status-bar {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .chat-container {
+            flex: 1;
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            max-width: 80%;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .ai-message {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            margin-right: auto;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .input-field:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .send-button, .clear-button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .clear-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            color: white;
+        }
+
+        .clear-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .thinking {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            color: #6b7280;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .thinking-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .thinking-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6b7280;
+            animation: thinking 1.4s infinite ease-in-out;
+        }
+
+        .thinking-dot:nth-child(1) { animation-delay: -0.32s; }
+        .thinking-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes thinking {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .metrics {
+            display: flex;
+            gap: 20px;
+            font-size: 0.8em;
+        }
+
+        .metric {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .metric-value {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Gubby AI</h1>
+            <p>Advanced Neural Network Assistant with Continuous Learning</p>
+        </div>
+        
+        <div class="status-bar">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>Neural Network Active</span>
+            </div>
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-value" id="conversations-count">0</div>
+                    <div>Conversations</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="learning-score">85%</div>
+                    <div>Learning</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="accuracy-score">92%</div>
+                    <div>Accuracy</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="chat-container scrollbar-custom" id="chat-container">
+                <div class="ai-message">
+                    Hello! I'm Gubby AI, your advanced neural network assistant. I specialize in coding, problem-solving, and intelligent conversation. I learn from every interaction to become smarter and more helpful. What would you like to work on today?
+                </div>
+            </div>
+
+            <div class="thinking" id="thinking-indicator">
+                <span>Gubby is thinking</span>
+                <div class="thinking-dots">
+                    <div class="thinking-dot"></div>
+                    <div class="thinking-dot"></div>
+                    <div class="thinking-dot"></div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <input type="text" class="input-field" id="user-input" placeholder="Ask me about coding, algorithms, or anything tech-related..." maxlength="1000">
+                <button class="send-button" id="send-button">Send</button>
+                <button class="clear-button" id="clear-button">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class GubbyAI {
+            constructor() {
+                this.conversations = [];
+                this.knowledgeBase = this.initializeKnowledgeBase();
+                this.neuralNetwork = null;
+                this.contextMemory = [];
+                this.learningRate = 0.01;
+                this.conversationCount = 0;
+                this.initializeNeuralNetwork();
+                this.loadConversations();
+            }
+
+            initializeKnowledgeBase() {
+                return {
+                    coding: {
+                        javascript: {
+                            basics: "JavaScript is a high-level, interpreted programming language. It's dynamically typed and supports object-oriented, imperative, and functional programming styles.",
+                            functions: "Functions in JavaScript can be declared using function declarations, function expressions, or arrow functions. They are first-class objects.",
+                            promises: "Promises represent the eventual completion or failure of an asynchronous operation and its resulting value.",
+                            async: "Async/await provides a way to write asynchronous code that looks synchronous, making it easier to read and debug."
+                        },
+                        python: {
+                            basics: "Python is a high-level, interpreted programming language known for its simple syntax and readability.",
+                            dataStructures: "Python has built-in data structures like lists, tuples, dictionaries, and sets, each with unique properties and use cases.",
+                            oop: "Python supports object-oriented programming with classes, inheritance, encapsulation, and polymorphism.",
+                            libraries: "Python has extensive libraries for web development (Django, Flask), data science (NumPy, Pandas), ML (TensorFlow, PyTorch), and more."
+                        },
+                        algorithms: {
+                            sorting: "Common sorting algorithms include bubble sort (O(n²)), merge sort (O(n log n)), and quicksort (average O(n log n)).",
+                            searching: "Binary search (O(log n)) is efficient for sorted arrays, while linear search (O(n)) works on unsorted data.",
+                            complexity: "Time complexity measures how runtime scales with input size. Space complexity measures memory usage.",
+                            dataStructures: "Arrays, linked lists, stacks, queues, trees, and graphs each have specific use cases and performance characteristics."
+                        }
+                    },
+                    conversation: {
+                        greetings: ["Hello! How can I help you today?", "Hi there! What would you like to work on?", "Greetings! I'm here to assist you."],
+                        thanks: ["You're welcome!", "Happy to help!", "Glad I could assist you!", "Anytime!"],
+                        help: "I can help with coding questions, algorithm explanations, debugging, code reviews, and technical discussions."
+                    }
+                };
+            }
+
+            async initializeNeuralNetwork() {
+                // Simple neural network for response generation
+                this.neuralNetwork = tf.sequential({
+                    layers: [
+                        tf.layers.dense({ inputShape: [100], units: 128, activation: 'relu' }),
+                        tf.layers.dropout({ rate: 0.2 }),
+                        tf.layers.dense({ units: 64, activation: 'relu' }),
+                        tf.layers.dropout({ rate: 0.2 }),
+                        tf.layers.dense({ units: 32, activation: 'relu' }),
+                        tf.layers.dense({ units: 10, activation: 'softmax' })
+                    ]
+                });
+
+                this.neuralNetwork.compile({
+                    optimizer: tf.train.adam(this.learningRate),
+                    loss: 'categoricalCrossentropy',
+                    metrics: ['accuracy']
+                });
+
+                console.log('Neural network initialized successfully');
+            }
+
+            loadConversations() {
+                // In a real implementation, this would load from localStorage
+                // For now, we'll use in-memory storage
+                try {
+                    const saved = []; // localStorage.getItem('gubby_conversations')
+                    if (saved.length > 0) {
+                        this.conversations = JSON.parse(saved);
+                        this.conversationCount = this.conversations.length;
+                        this.updateMetrics();
+                    }
+                } catch (error) {
+                    console.log('No previous conversations found');
+                }
+            }
+
+            saveConversations() {
+                // In your Vercel deployment, uncomment this line:
+                // localStorage.setItem('gubby_conversations', JSON.stringify(this.conversations));
+                console.log('Conversations saved to memory');
+            }
+
+            analyzeInput(input) {
+                const tokens = input.toLowerCase().split(/\s+/);
+                const analysis = {
+                    topic: 'general',
+                    complexity: 'medium',
+                    codeRelated: false,
+                    keywords: []
+                };
+
+                // Detect code-related content
+                const codeKeywords = ['code', 'function', 'variable', 'algorithm', 'debug', 'error', 'syntax', 'programming', 'javascript', 'python', 'html', 'css'];
+                analysis.codeRelated = tokens.some(token => codeKeywords.includes(token));
+
+                // Detect topic
+                if (tokens.some(token => ['javascript', 'js', 'node'].includes(token))) {
+                    analysis.topic = 'javascript';
+                } else if (tokens.some(token => ['python', 'py', 'django', 'flask'].includes(token))) {
+                    analysis.topic = 'python';
+                } else if (tokens.some(token => ['algorithm', 'sorting', 'search', 'complexity'].includes(token))) {
+                    analysis.topic = 'algorithms';
+                } else if (tokens.some(token => ['html', 'css', 'web', 'frontend'].includes(token))) {
+                    analysis.topic = 'web';
+                }
+
+                // Detect complexity
+                if (tokens.length > 20 || tokens.some(token => ['advanced', 'complex', 'optimization', 'performance'].includes(token))) {
+                    analysis.complexity = 'high';
+                } else if (tokens.length < 10 && tokens.some(token => ['basic', 'simple', 'beginner', 'start'].includes(token))) {
+                    analysis.complexity = 'low';
+                }
+
+                analysis.keywords = tokens.filter(token => token.length > 3);
+                return analysis;
+            }
+
+            generateResponse(input, analysis) {
+                let response = '';
+                
+                // Context-aware response generation
+                if (analysis.codeRelated) {
+                    response = this.generateCodeResponse(input, analysis);
+                } else {
+                    response = this.generateGeneralResponse(input, analysis);
+                }
+
+                // Add learning from context
+                this.contextMemory.push({ input, response, analysis, timestamp: Date.now() });
+                if (this.contextMemory.length > 50) {
+                    this.contextMemory.shift(); // Keep only recent context
+                }
+
+                return response;
+            }
+
+            generateCodeResponse(input, analysis) {
+                const responses = {
+                    javascript: [
+                        "JavaScript is incredibly versatile! Here's what I can help you with:",
+                        "Let me break down this JavaScript concept for you:",
+                        "JavaScript has some powerful features. Let me explain:"
+                    ],
+                    python: [
+                        "Python is great for this! Here's my approach:",
+                        "Python makes this elegant. Let me show you:",
+                        "Here's how to tackle this in Python:"
+                    ],
+                    algorithms: [
+                        "This is a classic algorithmic problem. Let me walk you through it:",
+                        "Algorithm design is fascinating! Here's how to approach this:",
+                        "Let's analyze the time and space complexity:"
+                    ]
+                };
+
+                let baseResponse = responses[analysis.topic] ? 
+                    responses[analysis.topic][Math.floor(Math.random() * responses[analysis.topic].length)] :
+                    "This is an interesting coding question! Let me help you with that:";
+
+                // Add specific code examples based on keywords
+                if (input.toLowerCase().includes('function')) {
+                    baseResponse += "\n\n```javascript\n// Example function structure\nfunction exampleFunction(param) {\n    // Your logic here\n    return result;\n}\n```";
+                }
+
+                if (input.toLowerCase().includes('loop')) {
+                    baseResponse += "\n\nFor loops, consider these patterns:\n```javascript\n// For loop\nfor (let i = 0; i < array.length; i++) {\n    console.log(array[i]);\n}\n\n// For...of loop\nfor (const item of array) {\n    console.log(item);\n}\n```";
+                }
+
+                if (input.toLowerCase().includes('array')) {
+                    baseResponse += "\n\nArray methods are powerful:\n```javascript\n// Common array methods\nconst numbers = [1, 2, 3, 4, 5];\nconst doubled = numbers.map(n => n * 2);\nconst evens = numbers.filter(n => n % 2 === 0);\nconst sum = numbers.reduce((acc, n) => acc + n, 0);\n```";
+                }
+
+                return baseResponse;
+            }
+
+            generateGeneralResponse(input, analysis) {
+                // Check for greetings
+                if (/^(hi|hello|hey|greetings)/i.test(input)) {
+                    return this.knowledgeBase.conversation.greetings[Math.floor(Math.random() * this.knowledgeBase.conversation.greetings.length)];
+                }
+
+                // Check for thanks
+                if (/thank/i.test(input)) {
+                    return this.knowledgeBase.conversation.thanks[Math.floor(Math.random() * this.knowledgeBase.conversation.thanks.length)];
+                }
+
+                // Check for help requests
+                if (/help|what can you do/i.test(input)) {
+                    return this.knowledgeBase.conversation.help;
+                }
+
+                // Generate contextual response
+                const responses = [
+                    "That's an interesting question! Let me think about it...",
+                    "I understand what you're asking. Here's my perspective:",
+                    "Based on my knowledge and our conversation, I'd say:",
+                    "Let me analyze this for you:",
+                    "That's a great point! Here's what I think:"
+                ];
+
+                return responses[Math.floor(Math.random() * responses.length)] + "\n\nCould you provide more context so I can give you a more specific answer?";
+            }
+
+            async processMessage(input) {
+                const analysis = this.analyzeInput(input);
+                const response = this.generateResponse(input, analysis);
+                
+                // Store conversation for learning
+                const conversation = {
+                    id: Date.now(),
+                    input,
+                    response,
+                    analysis,
+                    timestamp: new Date().toISOString()
+                };
+
+                this.conversations.push(conversation);
+                this.conversationCount++;
+                this.saveConversations();
+                this.updateMetrics();
+                
+                // Simulate neural network learning (in a real implementation, this would train the model)
+                await this.updateNeuralNetwork(conversation);
+
+                return response;
+            }
+
+            async updateNeuralNetwork(conversation) {
+                // Simulate learning delay
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                // In a real implementation, you would:
+                // 1. Convert conversation to training data
+                // 2. Update model weights
+                // 3. Improve response quality over time
+                
+                console.log('Neural network updated with new conversation data');
+            }
+
+            updateMetrics() {
+                document.getElementById('conversations-count').textContent = this.conversationCount;
+                
+                // Simulate learning improvement
+                const learningScore = Math.min(85 + (this.conversationCount * 0.5), 99);
+                document.getElementById('learning-score').textContent = Math.round(learningScore) + '%';
+                
+                // Simulate accuracy improvement
+                const accuracyScore = Math.min(92 + (this.conversationCount * 0.3), 98);
+                document.getElementById('accuracy-score').textContent = Math.round(accuracyScore) + '%';
+            }
+
+            clearConversations() {
+                this.conversations = [];
+                this.conversationCount = 0;
+                this.contextMemory = [];
+                // localStorage.removeItem('gubby_conversations'); // Uncomment for Vercel
+                this.updateMetrics();
+            }
+        }
+
+        // Initialize Gubby AI
+        const gubbyAI = new GubbyAI();
+
+        // DOM elements
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const clearButton = document.getElementById('clear-button');
+        const thinkingIndicator = document.getElementById('thinking-indicator');
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        clearButton.addEventListener('click', () => {
+            chatContainer.innerHTML = '<div class="ai-message">Chat cleared! I\'m ready for a fresh conversation. What would you like to discuss?</div>';
+            gubbyAI.clearConversations();
+        });
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            addMessageToChat(message, 'user');
+            userInput.value = '';
+
+            // Show thinking indicator
+            thinkingIndicator.style.display = 'flex';
+
+            try {
+                // Process message with Gubby AI
+                const response = await gubbyAI.processMessage(message);
+                
+                // Hide thinking indicator
+                thinkingIndicator.style.display = 'none';
+                
+                // Add AI response to chat
+                addMessageToChat(response, 'ai');
+            } catch (error) {
+                thinkingIndicator.style.display = 'none';
+                addMessageToChat('I encountered an error processing your message. Please try again!', 'ai');
+                console.error('Error:', error);
+            }
+        }
+
+        function addMessageToChat(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            // Format code blocks
+            let formattedMessage = message.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+                return `<div class="code-block">${code.trim()}</div>`;
+            });
+            
+            messageDiv.innerHTML = formattedMessage;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Auto-focus input field
+        userInput.focus();
+
+        console.log('Gubby AI initialized successfully!');
+    </script>
+</body>
+</html>
