@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RayJS Documentation</title>
+    <style>
+        :root {
+            --accent-color: #3366ff;
+            --dark-bg: #1a1a1a;
+            --dark-element: #2d2d2d;
+            --dark-text: #ffffff;
+            --light-bg: #f5f5f5;
+            --light-element: #ffffff;
+            --light-text: #333333;
+            --border-color: #444444;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: var(--dark-element);
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-header h1 {
+            margin: 0;
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-nav a {
+            color: var(--dark-text);
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .sidebar-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-nav a.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            margin-left: 250px;
+            max-width: 900px;
+        }
+        
+        h1, h2, h3 {
+            color: var(--accent-color);
+        }
+        
+        h1 {
+            font-size: 32px;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h2 {
+            font-size: 26px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            font-size: 20px;
+            margin-top: 30px;
+        }
+        
+        .code-block {
+            background-color: var(--dark-element);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .method {
+            background-color: var(--dark-element);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .method-name {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .method-description {
+            margin-bottom: 15px;
+        }
+        
+        .method-params, .method-returns {
+            margin-bottom: 10px;
+        }
+        
+        .param-table, .return-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .param-table th, .return-table th {
+            text-align: left;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .param-table td, .return-table td {
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+        
+        .example {
+            background-color: rgba(51, 102, 255, 0.1);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .example-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>RayJS</h1>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="#getting-started" class="active">Getting Started</a></li>
+                <li><a href="#window">Window</a></li>
+                <li><a href="#elements">Elements</a></li>
+                <li><a href="#notifications">Notifications</a></li>
+                <li><a href="#examples">Examples</a></li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <section id="getting-started">
+                <h1>SimpleLibary</h1>
+                <p>SimpleLibary is a kyay UI library designed for creating interactive interfaces for Roblox, it provides a simple yet powerful way to build GUI elements programmatically.</p>
+                
+                <h2>Installation</h2>
+                <p>To use SimpleLibart, paste this first in your executor:</p>
+                
+                <div class="code-block">
+                    // Load RayJS from GitHub<br>
+                    let script = document.createElement('script');<br>
+                    script.src = 'https://yourusername.github.io/rayjs/RayJS.js';<br>
+                    script.onload = function() {<br>
+                    &nbsp;&nbsp;// Initialize RayJS after loading<br>
+                    &nbsp;&nbsp;window.RayJS = LoadRayJS({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;title: 'My Interface',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;theme: 'dark', // or 'light'<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;accentColor: '#3366ff'<br>
+                    &nbsp;&nbsp;});<br>
+                    };<br>
+                    document.head.appendChild(script);
+                </div>
+                
+                <h2>Basic Usage</h2>
+                <p>After loading the library, you can create and add modules to the very bottem </p>
+                
+                <div class="code-block">
+                    // Create a window<br>
+                    const window = RayJS.NewWindow({<br>
+                    &nbsp;&nbsp;name: 'My Window',<br>
+                    &nbsp;&nbsp;size: { width: 400, height: 500 }<br>
+                    });<br>
+                    <br>
+                    // Add a button<br>
+                    window.Button({<br>
+                    &nbsp;&nbsp;Text: 'Click Me',<br>
+                    &nbsp;&nbsp;Callback: function() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;console.log('Button clicked!');<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;RayJS.Notify({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: 'Notification',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content: 'You clicked the button!'<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;}<br>
+                    });
+                </div>
+            </section>
+            
+            <section id="window">
+                <h2>Window Methods</h2>
+                
+                <div class="method">
+                    <div class="method-name">NewWindow(options)</div>
+                    <div class="method-description">Creates a new window with the specified options.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>name</td>
+                                <td>string</td>
+                                <td>The title of the window</td>
+                                <td>'New Window'</td>
+                            </tr>
+                            <tr>
+                                <td>size</td>
+                                <td>object</td>
+                                <td>Width and height of the window {width: number, height: number}</td>
+                                <td>{width: 400, height: 500}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const window = RayJS.NewWindow({<br>
+                            &nbsp;&nbsp;name: 'Control Panel',<br>
+                            &nbsp;&nbsp;size: { width: 450, height: 600 }<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Window Instance Methods</h3>
+                
+                <div class="method">
+                    <div class="method-name">NewTab(name)</div>
+                    <div class="method-description">Creates a new tab in the window with the specified name.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>name</td>
+                                <td>string</td>
+                                <td>The name of the tab</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const tab = window.NewTab('Settings');
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="elements">
+                <h2>UI Elements</h2>
+                
+                <h3>Button</h3>
+                <div class="method">
+                    <div class="method-name">Button(options)</div>
+                    <div class="method-description">Creates a clickable button element.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>Text</td>
+                                <td>string</td>
+                                <td>The text displayed on the button</td>
+                                <td>'Button'</td>
+                            </tr>
+                            <tr>
+                                <td>Callback</td>
+                                <td>function</td>
+                                <td>Function to execute when button is clicked</td>
+                                <td>null</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to update or destroy the button.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Update(newOptions)</td>
+                                <td>Updates the button properties</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the button from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const button = window.Button({<br>
+                            &nbsp;&nbsp;Text: 'Execute Script',<br>
+                            &nbsp;&nbsp;Callback: function() {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;// Load and execute a script from pastebin<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;RayJS.LoadScript('https://pastebin.com/raw/example123', function() {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('Script loaded!');<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;}<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Toggle</h3>
+                <div class="method">
+                    <div class="method-name">Toggle(options)</div>
+                    <div class="method-description">Creates a toggle switch element.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>Text</td>
+                                <td>string</td>
+                                <td>The label for the toggle</td>
+                                <td>'Toggle'</td>
+                            </tr>
+                            <tr>
+                                <td>Default</td>
+                                <td>boolean</td>
+                                <td>Initial state of the toggle</td>
+                                <td>false</td>
+                            </tr>
+                            <tr>
+                                <td>Callback</td>
+                                <td>function</td>
+                                <td>Function to execute when toggle state changes</td>
+                                <td>null</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the toggle.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Value()</td>
+                                <td>Returns current toggle state</td>
+                            </tr>
+                            <tr>
+                                <td>Set(value)</td>
+                                <td>Sets the toggle state</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the toggle from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const toggle = window.Toggle({<br>
+                            &nbsp;&nbsp;Text: 'Enable Feature',<br>
+                            &nbsp;&nbsp;Default: true,<br>
+                            &nbsp;&nbsp;Callback: function(state) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Feature is now', state ? 'enabled' : 'disabled');<br>
+                            &nbsp;&nbsp;}<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Slider</h3>
+                <div class="method">
+                    <div class="method-name">Slider(options)</div>
+                    <div class="method-description">Creates a slider input element.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>Text</td>
+                                <td>string</td>
+                                <td>The label for the slider</td>
+                                <td>'Slider'</td>
+                            </tr>
+                            <tr>
+                                <td>Min</td>
+                                <td>number</td>
+                                <td>Minimum value</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>Max</td>
+                                <td>number</td>
+                                <td>Maximum value</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>Default</td>
+                                <td>number</td>
+                                <td>Initial value</td>
+                                <td>Min value</td>
+                            </tr>
+                            <tr>
+                                <td>Increment</td>
+                                <td>number</td>
+                                <td>Step size</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>Callback</td>
+                                <td>function</td>
+                                <td>Function to execute when value changes</td>
+                                <td>null</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the slider.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Value()</td>
+                                <td>Returns current slider value</td>
+                            </tr>
+                            <tr>
+                                <td>Set(value)</td>
+                                <td>Sets the slider value</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the slider from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const slider = window.Slider({<br>
+                            &nbsp;&nbsp;Text: 'Volume',<br>
+                            &nbsp;&nbsp;Min: 0,<br>
+                            &nbsp;&nbsp;Max: 100,<br>
+                            &nbsp;&nbsp;Default: 50,<br>
+                            &nbsp;&nbsp;Callback: function(value) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Volume set to:', value);<br>
+                            &nbsp;&nbsp;}<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Dropdown</h3>
+                <div class="method">
+                    <div class="method-name">Dropdown(options)</div>
+                    <div class="method-description">Creates a dropdown selection element.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>Text</td>
+                                <td>string</td>
+                                <td>The label for the dropdown</td>
+                                <td>'Dropdown'</td>
+                            </tr>
+                            <tr>
+                                <td>List</td>
+                                <td>array</td>
+                                <td>Array of options</td>
+                                <td>[]</td>
+                            </tr>
+                            <tr>
+                                <td>Default</td>
+                                <td>string</td>
+                                <td>Default selected option</td>
+                                <td>First item in List</td>
+                            </tr>
+                            <tr>
+                                <td>Callback</td>
+                                <td>function</td>
+                                <td>Function to execute when selection changes</td>
+                                <td>null</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the dropdown.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Value()</td>
+                                <td>Returns current selected value</td>
+                            </tr>
+                            <tr>
+                                <td>Set(value)</td>
+                                <td>Sets the selected value</td>
+                            </tr>
+                            <tr>
+                                <td>UpdateList(newList)</td>
+                                <td>Updates the options list</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the dropdown from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const dropdown = window.Dropdown({<br>
+                            &nbsp;&nbsp;Text: 'Select Theme',<br>
+                            &nbsp;&nbsp;List: ['Dark', 'Light', 'Blue', 'Red'],<br>
+                            &nbsp;&nbsp;Default: 'Dark',<br>
+                            &nbsp;&nbsp;Callback: function(value) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Theme selected:', value);<br>
+                            &nbsp;&nbsp;}<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Textbox</h3>
+                <div class="method">
+                    <div class="method-name">Textbox(options)</div>
+                    <div class="method-description">Creates a text input element with optional submit button.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>Text</td>
+                                <td>string</td>
+                                <td>The label for the textbox</td>
+                                <td>'Textbox'</td>
+                            </tr>
+                            <tr>
+                                <td>Placeholder</td>
+                                <td>string</td>
+                                <td>Placeholder text</td>
+                                <td>''</td>
+                            </tr>
+                            <tr>
+                                <td>Default</td>
+                                <td>string</td>
+                                <td>Initial value</td>
+                                <td>''</td>
+                            </tr>
+                            <tr>
+                                <td>ButtonText</td>
+                                <td>string</td>
+                                <td>Text for the submit button</td>
+                                <td>'Submit'</td>
+                            </tr>
+                            <tr>
+                                <td>Callback</td>
+                                <td>function</td>
+                                <td>Function to execute when submitted</td>
+                                <td>null</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the textbox.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Value()</td>
+                                <td>Returns current text value</td>
+                            </tr>
+                            <tr>
+                                <td>Set(value)</td>
+                                <td>Sets the text value</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the textbox from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const textbox = window.Textbox({<br>
+                            &nbsp;&nbsp;Text: 'Pastebin URL',<br>
+                            &nbsp;&nbsp;Placeholder: 'https://pastebin.com/raw/...',<br>
+                            &nbsp;&nbsp;ButtonText: 'Load',<br>
+                            &nbsp;&nbsp;Callback: function(value) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;RayJS.LoadScript(value, function() {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('Script loaded from:', value);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;}<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Label</h3>
+                <div class="method">
+                    <div class="method-name">Label(options)</div>
+                    <div class="method-description">Creates a text label element.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>Text</td>
+                                <td>string</td>
+                                <td>The text to display</td>
+                                <td>'Label'</td>
+                            </tr>
+                            <tr>
+                                <td>Size</td>
+                                <td>string</td>
+                                <td>Font size (e.g., '14px')</td>
+                                <td>'14px'</td>
+                            </tr>
+                            <tr>
+                                <td>Bold</td>
+                                <td>boolean</td>
+                                <td>Whether text should be bold</td>
+                                <td>false</td>
+                            </tr>
+                            <tr>
+                                <td>Center</td>
+                                <td>boolean</td>
+                                <td>Whether to center-align text</td>
+                                <td>false</td>
+                            </tr>
+                            <tr>
+                                <td>Wrap</td>
+                                <td>boolean</td>
+                                <td>Whether text should wrap</td>
+                                <td>false</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the label.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Update(newOptions)</td>
+                                <td>Updates the label properties</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the label from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const label = window.Label({<br>
+                            &nbsp;&nbsp;Text: 'Welcome to RayJS!',<br>
+                            &nbsp;&nbsp;Size: '18px',<br>
+                            &nbsp;&nbsp;Bold: true,<br>
+                            &nbsp;&nbsp;Center: true<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Keybind</h3>
+                <div class="method">
+                    <div class="method-name">Keybind(options)</div>
+                    <div class="method-description">Creates a keybind input element to capture keyboard keys.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>Text</td>
+                                <td>string</td>
+                                <td>The label for the keybind</td>
+                                <td>'Keybind'</td>
+                            </tr>
+                            <tr>
+                                <td>Default</td>
+                                <td>string</td>
+                                <td>Default key</td>
+                                <td>null</td>
+                            </tr>
+                            <tr>
+                                <td>Callback</td>
+                                <td>function</td>
+                                <td>Function to execute when key is set</td>
+                                <td>null</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the keybind.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Value()</td>
+                                <td>Returns current key</td>
+                            </tr>
+                            <tr>
+                                <td>Set(key)</td>
+                                <td>Sets the key</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the keybind from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const keybind = window.Keybind({<br>
+                            &nbsp;&nbsp;Text: 'Toggle Menu',<br>
+                            &nbsp;&nbsp;Default: 'F1',<br>
+                            &nbsp;&nbsp;Callback: function(key) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Menu toggle key set to:', key);<br>
+                            &nbsp;&nbsp;}<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>ColorPicker</h3>
+                <div class="method">
+                    <div class="method-name">ColorPicker(options)</div>
+                    <div class="method-description">Creates a color picker element.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>Text</td>
+                                <td>string</td>
+                                <td>The label for the color picker</td>
+                                <td>'Color Picker'</td>
+                            </tr>
+                            <tr>
+                                <td>Default</td>
+                                <td>string</td>
+                                <td>Default color (hex format)</td>
+                                <td>'#3366ff'</td>
+                            </tr>
+                            <tr>
+                                <td>Callback</td>
+                                <td>function</td>
+                                <td>Function to execute when color changes</td>
+                                <td>null</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the color picker.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Value()</td>
+                                <td>Returns current color</td>
+                            </tr>
+                            <tr>
+                                <td>Set(color)</td>
+                                <td>Sets the color</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the color picker from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const colorPicker = window.ColorPicker({<br>
+                            &nbsp;&nbsp;Text: 'Select Theme Color',<br>
+                            &nbsp;&nbsp;Default: '#ff3366',<br>
+                            &nbsp;&nbsp;Callback: function(color) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;console.log('Color selected:', color);<br>
+                            &nbsp;&nbsp;}<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Paragraph</h3>
+                <div class="method">
+                    <div class="method-name">Paragraph(options)</div>
+                    <div class="method-description">Creates a paragraph text element.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>Text</td>
+                                <td>string</td>
+                                <td>The text content</td>
+                                <td>''</td>
+                            </tr>
+                            <tr>
+                                <td>Wrap</td>
+                                <td>boolean</td>
+                                <td>Whether text should wrap</td>
+                                <td>false</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the paragraph.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Update(newOptions)</td>
+                                <td>Updates the paragraph properties</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the paragraph from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            const paragraph = window.Paragraph({<br>
+                            &nbsp;&nbsp;Text: 'This is a longer piece of text that explains something important about the interface or provides instructions to the user.',<br>
+                            &nbsp;&nbsp;Wrap: true<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Line</h3>
+                <div class="method">
+                    <div class="method-name">Line()</div>
+                    <div class="method-description">Creates a horizontal line separator.</div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the line.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the line from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            window.Line();
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Space</h3>
+                <div class="method">
+                    <div class="method-name">Space(height)</div>
+                    <div class="method-description">Creates vertical space between elements.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>height</td>
+                                <td>number</td>
+                                <td>Height of the space in pixels</td>
+                                <td>10</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the space.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Update(height)</td>
+                                <td>Updates the space height</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy()</td>
+                                <td>Removes the space from the UI</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            window.Space(20);
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="notifications">
+                <h2>Notifications</h2>
+                
+                <div class="method">
+                    <div class="method-name">Notify(options)</div>
+                    <div class="method-description">Displays a notification to the user.</div>
+                    
+                    <div class="method-params">
+                        <strong>Parameters:</strong>
+                        <table class="param-table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td>string</td>
+                                <td>Notification title</td>
+                                <td>'Notification'</td>
+                            </tr>
+                            <tr>
+                                <td>content</td>
+                                <td>string</td>
+                                <td>Notification message</td>
+                                <td>''</td>
+                            </tr>
+                            <tr>
+                                <td>duration</td>
+                                <td>number</td>
+                                <td>How long to display (seconds, 0 for persistent)</td>
+                                <td>5</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="method-returns">
+                        <strong>Returns:</strong> An object with methods to interact with the notification.
+                        <table class="return-table">
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Dismiss()</td>
+                                <td>Manually dismiss the notification</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <div class="example-title">Example</div>
+                        <div class="code-block">
+                            RayJS.Notify({<br>
+                            &nbsp;&nbsp;title: 'Success',<br>
+                            &nbsp;&nbsp;content: 'Your action was completed successfully!',<br>
+                            &nbsp;&nbsp;duration: 3<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="examples">
+                <h2>Complete Example</h2>
+                <p>Here's a complete example that demonstrates how to create a full-featured interface with RayJS:</p>
+                
+                <div class="code-block">
+                    // Load RayJS<br>
+                    let script = document.createElement('script');<br>
+                    script.src = 'https://yourusername.github.io/rayjs/RayJS.js';<br>
+                    script.onload = function() {<br>
+                    &nbsp;&nbsp;// Initialize RayJS<br>
+                    &nbsp;&nbsp;window.RayJS = LoadRayJS({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;title: 'Script Hub',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;theme: 'dark',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;accentColor: '#ff3366'<br>
+                    &nbsp;&nbsp;});<br>
+                    <br>
+                    &nbsp;&nbsp;// Create main window<br>
+                    &nbsp;&nbsp;const window = RayJS.NewWindow({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;name: 'Script Hub',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;size: { width: 450, height: 600 }<br>
+                    &nbsp;&nbsp;});<br>
+                    <br>
+                    &nbsp;&nbsp;// Add tabs<br>
+                    &nbsp;&nbsp;const scriptsTab = window.NewTab('Scripts');<br>
+                    &nbsp;&nbsp;const settingsTab = window.NewTab('Settings');<br>
+                    <br>
+                    &nbsp;&nbsp;// Scripts tab content<br>
+                    &nbsp;&nbsp;window.Label({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Text: 'Script Hub',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Size: '20px',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Bold: true,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Center: true<br>
+                    &nbsp;&nbsp;});<br>
+                    <br>
+                    &nbsp;&nbsp;window.Line();<br>
+                    <br>
+                    &nbsp;&nbsp;window.Button({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Text: 'Load Auto-Farm Script',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Callback: function() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RayJS.LoadScript('https://pastebin.com/raw/autofarm123', function() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RayJS.Notify({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: 'Success',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content: 'Auto-Farm script loaded!'<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;});<br>
+                    <br>
+                    &nbsp;&nbsp;window.Button({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Text: 'Load ESP Script',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Callback: function() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RayJS.LoadScript('https://pastebin.com/raw/esp456', function() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RayJS.Notify({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: 'Success',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content: 'ESP script loaded!'<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;});<br>
+                    <br>
+                    &nbsp;&nbsp;window.Space(20);<br>
+                    <br>
+                    &nbsp;&nbsp;window.Textbox({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Text: 'Load Custom Script',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Placeholder: 'Pastebin URL...',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;ButtonText: 'Load',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Callback: function(url) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RayJS.LoadScript(url, function() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RayJS.Notify({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: 'Success',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content: 'Custom script loaded from: ' + url<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;});<br>
+                    <br>
+                    &nbsp;&nbsp;// Settings tab content<br>
+                    &nbsp;&nbsp;settingsTab.button.click(); // Switch to settings tab<br>
+                    <br>
+                    &nbsp;&nbsp;window.Label({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Text: 'Settings',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Size: '20px',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Bold: true,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Center: true<br>
+                    &nbsp;&nbsp;});<br>
+                    <br>
+                    &nbsp;&nbsp;window.Line();<br>
+                    <br>
+                    &nbsp;&nbsp;const themeToggle = window.Toggle({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Text: 'Dark Mode',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Default: true,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Callback: function(state) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RayJS.Notify({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: 'Theme Changed',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content: state ? 'Dark mode enabled' : 'Light mode enabled'<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;});<br>
+                    <br>
+                    &nbsp;&nbsp;window.ColorPicker({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Text: 'Accent Color',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Default: '#ff3366',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Callback: function(color) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RayJS.Notify({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: 'Color Changed',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content: 'Accent color updated to: ' + color<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;});<br>
+                    <br>
+                    &nbsp;&nbsp;window.Keybind({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Text: 'Toggle Interface',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Default: 'F1',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Callback: function(key) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RayJS.Notify({<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title: 'Keybind Set',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content: 'Press ' + key + ' to toggle the interface'<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;});<br>
+                    <br>
+                    &nbsp;&nbsp;// Switch back to scripts tab<br>
+                    &nbsp;&nbsp;scriptsTab.button.click();<br>
+                    };<br>
+                    document.head.appendChild(script);
+                </div>
+                
+                <p>This example creates a script hub interface with two tabs (Scripts and Settings), various interactive elements, and demonstrates how to load external scripts from Pastebin URLs.</p>
+            </section>
+        </div>
+    </div>
+    
+    <button class="theme-toggle" id="themeToggle">Toggle Light/Dark</button>
+    
+    <script>
+        // Simple theme toggle for documentation
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('light-theme');
+            
+            if (document.body.classList.contains('light-theme')) {
+                document.documentElement.style.setProperty('--dark-bg', 'var(--light-bg)');
+                document.documentElement.style.setProperty('--dark-element', 'var(--light-element)');
+                document.documentElement.style.setProperty('--dark-text', 'var(--light-text)');
+            } else {
+                document.documentElement.style.setProperty('--dark-bg', '#1a1a1a');
+                document.documentElement.style.setProperty('--dark-element', '#2d2d2d');
+                document.documentElement.style.setProperty('--dark-text', '#ffffff');
+            }
+        });
+        
+        // Simple navigation highlighting
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>
