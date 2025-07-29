@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Style Showcase</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      height: 100%;
+      overflow-y: scroll;
+    }
+
+    body {
+      scroll-snap-type: y mandatory;
+    }
+
+    section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      scroll-snap-align: start;
+    }
+
+    /* ===== BASE ===== */
+    h1 { margin: 0 0 20px 0; }
+    p { margin: 0; }
+
+    /* ====== 1. Modern Minimalist ====== */
+    #style1 {
+      background: linear-gradient(to bottom right, #1e3c72, #2a5298);
+      color: white;
+      font-family: 'Helvetica Neue', sans-serif;
+    }
+
+    /* ====== 2. Retro 90s ====== */
+    #style2 {
+      background: repeating-linear-gradient(45deg, #ff00ff, #ff00ff 20px, #00ffff 20px, #00ffff 40px);
+      font-family: "Comic Sans MS", cursive;
+      color: yellow;
+      text-shadow: 2px 2px 4px black;
+    }
+    #style2 h1 {
+      animation: bounce 1s infinite alternate;
+    }
+    @keyframes bounce { from{transform:translateY(0)} to{transform:translateY(-20px)} }
+
+    /* ====== 3. Clean Portfolio ====== */
+    #style3 {
+      background: #f4f4f4;
+      color: #333;
+      font-family: 'Arial', sans-serif;
+    }
+    #style3 .container { display: flex; }
+    #style3 .card {
+      background: white;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 200px;
+    }
+
+    /* ====== 4. Cyberpunk ====== */
+    #style4 {
+      background: black;
+      color: #0ff;
+      font-family: 'Courier New', monospace;
+    }
+    #style4 h1 {
+      color: #f0f;
+      text-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
+    }
+    #style4 p { text-shadow: 0 0 5px #0ff; }
+
+    /* ====== 5. Luxury Shop ====== */
+    #style5 {
+      background: linear-gradient(to bottom, #000, #333);
+      color: #d4af37;
+      font-family: 'Georgia', serif;
+    }
+    #style5 .products { display: flex; }
+    #style5 .product {
+      background: #111;
+      border: 2px solid #d4af37;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px;
+      width: 200px;
+      box-shadow: 0 0 15px rgba(212,175,55,0.3);
+    }
+
+    /* ====== 6. Magazine / Blog ====== */
+    #style6 {
+      background: #fff8f0;
+      color: #333;
+      font-family: 'Times New Roman', serif;
+    }
+    #style6 .post {
+      background: white;
+      border: 1px solid #ccc;
+      margin: 10px;
+      padding: 15px;
+      max-width: 500px;
+      text-align: left;
+    }
+
+    /* ====== 7. Nature / Travel ====== */
+    #style7 {
+      background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1500&q=80') no-repeat center center/cover;
+      color: white;
+      font-family: 'Helvetica', sans-serif;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    }
+
+    /* ====== 8. Tech Landing ====== */
+    #style8 {
+      background: #111;
+      color: #0ff;
+      font-family: 'Roboto', sans-serif;
+    }
+    #style8 button {
+      padding: 10px 20px;
+      background: #0ff;
+      border: none;
+      color: #111;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    /* ====== 9. Dark Minimal Dashboard ====== */
+    #style9 {
+      background: #0d0d0d;
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+    }
+    #style9 .widget {
+      background: #1a1a1a;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 8px;
+      width: 200px;
+      text-align: left;
+    }
+
+    /* ====== 10. Esports Team Page ====== */
+    #style10 {
+      background: linear-gradient(to right, #1b1b1b, #111);
+      color: #f44336;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 2px;
+    }
+    #style10 img {
+      width: 120px;
+      border: 3px solid #f44336;
+      border-radius: 50%;
+      margin: 10px;
+    }
+
+    /* ====== 11. Futuristic Gaming Landing ====== */
+    #style11 {
+      background: #050505;
+      color: #33ffcc;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    #style11 h1 {
+      font-size: 3rem;
+      border-bottom: 2px solid #33ffcc;
+      padding-bottom: 10px;
+    }
+
+    /* ====== 12. RPG Fantasy ====== */
+    #style12 {
+      background: linear-gradient(to bottom, #2c1810, #120907);
+      color: #f0e6d2;
+      font-family: 'Cinzel', serif;
+    }
+    #style12 h1 {
+      text-shadow: 0 0 10px rgba(240,230,210,0.5);
+    }
+
+    /* ====== 13. Minimal Monochrome Blog ====== */
+    #style13 {
+      background: #fdfdfd;
+      color: #111;
+      font-family: 'Helvetica', sans-serif;
+    }
+    #style13 h1 { font-weight: 300; }
+    #style13 .post {
+      max-width: 500px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+    }
+
+    /* ====== 14. Sleek Gaming Store ====== */
+    #style14 {
+      background: #1a1a1a;
+      color: #0ff;
+      font-family: 'Montserrat', sans-serif;
+    }
+    #style14 .item {
+      background: #111;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 6px;
+      width: 180px;
+      border: 1px solid #0ff;
+    }
+    #style14 .items { display: flex; }
+  </style>
+</head>
+<body>
+  <section id="style1"><h1>Modern Minimalist</h1><p>Clean, simple, and elegant design.</p></section>
+  <section id="style2"><h1>Retro 90s</h1><p>Neon colors and funky vibes!</p></section>
+  <section id="style3"><h1>Clean Portfolio</h1><div class="container"><div class="card">Project 1</div><div class="card">Project 2</div></div></section>
+  <section id="style4"><h1>Cyberpunk</h1><p>Glowing text and a futuristic feel.</p></section>
+  <section id="style5"><h1>Luxury Shop</h1><div class="products"><div class="product">Gold Watch</div><div class="product">Diamond Ring</div></div></section>
+  <section id="style6"><h1>Magazine / Blog</h1><div class="post"><h2>Latest News</h2><p>Lorem ipsum dolor sit.</p></div></section>
+  <section id="style7"><h1>Nature & Travel</h1><p>Escape to the wild.</p></section>
+  <section id="style8"><h1>Tech Landing</h1><p>Innovate your future</p><button>Get Started</button></section>
+  <section id="style9"><h1>Dark Minimal Dashboard</h1><div class="widget">CPU: 35%</div><div class="widget">Users: 120</div></section>
+  <section id="style10"><h1>Esports Team</h1><img src="https://via.placeholder.com/120" alt=""><p>Team Red Fury</p></section>
+  <section id="style11"><h1>Futuristic Gaming</h1><p>Enter the next dimension.</p></section>
+  <section id="style12"><h1>RPG Fantasy</h1><p>Embark on a legendary quest.</p></section>
+  <section id="style13"><h1>Minimal Monochrome Blog</h1><div class="post"><h2>Simple Post</h2><p>Less is more.</p></div></section>
+  <section id="style14"><h1>Sleek Gaming Store</h1><div class="items"><div class="item">Gaming Mouse</div><div class="item">Mechanical Keyboard</div></div></section>
+</body>
+</html>
+
+
