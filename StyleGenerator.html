@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random UI Style Generator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      overflow-x: hidden;
+    }
+
+    #style15 {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: background 0.5s ease, color 0.5s ease;
+      overflow-x: hidden;
+    }
+
+    #style15 h1 { margin: 10px 0; }
+    #style15 p { margin-bottom: 20px; }
+
+    .ui-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-gap: 20px;
+      width: 100%;
+      max-width: 2000px;
+      animation: gridEnter 0.7s ease;
+    }
+
+    .card {
+      background: #333;
+      color: #fff;
+      padding: 20px;
+      border-radius: 6px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      transition: all 0.5s ease;
+      opacity: 0;
+      transform: scale(0.95) translateY(10px);
+    }
+    .card.show {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .card.small {
+      margin: 5px 0;
+      padding: 10px;
+    }
+
+    .login-box input {
+      width: 100%;
+      margin: 5px 0;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+    }
+    .login-box button {
+      margin-top: 5px;
+      padding: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+
+    .controls select, .controls input[type="range"], .controls button {
+      width: 100%;
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 4px;
+      border: none;
+    }
+
+    .button-panel .button-row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .button-panel .button-row button {
+      margin: 5px;
+      flex: 1 0 30%;
+      padding: 8px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: transform 0.3s;
+    }
+    .button-panel .button-row button:hover {
+      transform: scale(1.05);
+    }
+
+    .widget-grid .widget {
+      background: rgba(0,0,0,0.2);
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: bold;
+      transition: transform 0.3s;
+    }
+    .widget-grid .widget:hover {
+      transform: translateY(-3px);
+    }
+
+    @keyframes gridEnter {
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
+    }
+  </style>
+</head>
+<body>
+<section id="style15">
+  <h1>Ultimate UI Playground</h1>
+  <p>Click "Generate Style" to see a whole new themed UI with animations!</p>
+
+  <div class="ui-grid">
+    <!-- Fake Login -->
+    <div class="login-box card group-login">
+      <h2>Login</h2>
+      <input type="text" placeholder="Username">
+      <input type="password" placeholder="Password">
+      <button>Login</button>
+    </div>
+
+    <!-- Settings -->
+    <div class="controls card group-controls">
+      <h2>Settings</h2>
+      <select>
+        <option>Theme: Default</option>
+        <option>Theme: Dark</option>
+        <option>Theme: Neon</option>
+        <option>Theme: Pastel</option>
+      </select>
+      <label><input type="checkbox"> Enable Shadows</label>
+      <label><input type="checkbox"> Rounded Corners</label>
+      <label><input type="checkbox"> High Contrast Mode</label>
+      <input type="range" min="0" max="100" value="50">
+      <button id="randomBtn">Generate Style</button>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="button-panel card group-buttons">
+      <h2>Actions</h2>
+      <div class="button-row">
+        <button>Play</button><button>Pause</button><button>Stop</button>
+        <button>Next</button><button>Previous</button><button>Shuffle</button>
+        <button>Upload</button><button>Download</button><button>Share</button>
+        <button>Like</button><button>Dislike</button><button>Report</button>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="card-container card group-cards">
+      <h2>Notifications</h2>
+      <div class="card small">Friend Request</div>
+      <div class="card small">New Message</div>
+      <div class="card small">Achievement Unlocked</div>
+      <div class="card small">Update Available</div>
+      <div class="card small">Server Online</div>
+      <div class="card small">Battery Low</div>
+      <div class="card small">Event Reminder</div>
+      <div class="card small">Security Alert</div>
+    </div>
+
+    <!-- Widgets -->
+    <div class="widget-grid card group-widgets">
+      <h2>Dashboard</h2>
+      <div class="widget">CPU: 35%</div>
+      <div class="widget">Memory: 68%</div>
+      <div class="widget">GPU: 72%</div>
+      <div class="widget">Ping: 45ms</div>
+      <div class="widget">FPS: 144</div>
+      <div class="widget">Disk: 82%</div>
+      <div class="widget">Network: Stable</div>
+      <div class="widget">Power: 91%</div>
+      <div class="widget">Temp: 65°C</div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Palette generation
+function hsl(h,s,l){return `hsl(${h}, ${s}%, ${l}%)`;}
+function randomHue(){return Math.floor(Math.random()*360);}
+
+function generatePalette(){
+  const scheme = Math.random();
+  const baseHue = randomHue();
+  let colors = [];
+
+  if(scheme<0.25){ 
+    // Monochromatic
+    colors = [hsl(baseHue,50,20), hsl(baseHue,30,90), hsl(baseHue,60,50)];
+  } else if(scheme<0.5){
+    // Complementary
+    const comp = (baseHue+180)%360;
+    colors = [hsl(baseHue,50,20), hsl(comp,40,85), hsl((baseHue+30)%360,60,50)];
+  } else if(scheme<0.75){
+    // Analogous
+    colors = [hsl(baseHue,50,20), hsl((baseHue+20)%360,40,85), hsl((baseHue+40)%360,60,50)];
+  } else {
+    // Triadic
+    colors = [hsl(baseHue,50,20), hsl((baseHue+120)%360,40,85), hsl((baseHue+240)%360,60,50)];
+  }
+  return { bg: colors[0], text: colors[1], accent: colors[2] };
+}
+
+function randomBorderRadius(){return `${Math.floor(Math.random()*25)}px`;}
+
+const style15 = document.getElementById('style15');
+const randomBtn = document.getElementById('randomBtn');
+const fonts = [
+  'Arial','Helvetica','Courier New','Georgia','Verdana','Trebuchet MS',
+  'Times New Roman','Montserrat','Roboto','Orbitron','Rajdhani','Cinzel'
+];
+
+function animateCards() {
+  const cards = style15.querySelectorAll('.card');
+  cards.forEach((card, i)=>{
+    card.classList.remove('show');
+    setTimeout(()=>card.classList.add('show'), i*80); // staggered reveal
+  });
+}
+
+randomBtn.addEventListener('click', ()=>{
+  const palette = generatePalette();
+  const bg = palette.bg, text = palette.text, accent = palette.accent;
+
+  style15.style.background = bg;
+  style15.style.color = text;
+  style15.style.fontFamily = fonts[Math.floor(Math.random()*fonts.length)];
+
+  // Grouped styling
+  const groups = [
+    {selector:'.group-login input, .group-login button', color:accent},
+    {selector:'.group-controls select, .group-controls input, .group-controls button', color:accent},
+    {selector:'.group-buttons button', color:accent},
+    {selector:'.group-cards .card', color:accent},
+    {selector:'.group-widgets .widget', color:accent},
+  ];
+
+  groups.forEach(group=>{
+    const els = style15.querySelectorAll(group.selector);
+    const groupColor = Math.random()>0.5?accent:bg;
+    els.forEach(el=>{
+      el.style.background = groupColor;
+      el.style.color = text;
+      el.style.borderRadius = randomBorderRadius();
+      el.style.border = Math.random()>0.6?`2px solid ${accent}`:'none';
+      el.style.boxShadow = Math.random()>0.4?`0 0 10px ${accent}`:'none';
+    });
+  });
+
+  animateCards();
+  randomBtn.textContent = "Style Generated!";
+  setTimeout(()=>randomBtn.textContent="Generate Style",1500);
+});
+
+window.addEventListener('load', () => {
+  // Animate cards on load so they're visible immediately
+  const cards = style15.querySelectorAll('.card');
+  cards.forEach((card, i) => {
+    setTimeout(() => card.classList.add('show'), i * 80);
+  });
+});
+</script>
+</body>
+</html>
+
