@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>0x108</title>
+    <link rel="icon" href="0x108_put_your_favicon_here.png" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+      * {
+        font-family: 'Inter', sans-serif;
+        border: 1px solid transparent;
+      }
+
+      /* Scrollbar and selection */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::selection {
+        background: rgba(59, 130, 246, 0.2);
+        color: #fff;
+      }
+
+      /* Card styles */
+      .card {
+        background: rgba(24, 24, 27, 0.4);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(63, 63, 70, 0.4);
+        transition: border-color 0.1s ease-in;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: '';
+        position: absolute;
+        bottom: -50.1%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 180px;
+        height: 120px;
+        background: radial-gradient(
+          ellipse,
+          rgba(59, 130, 246, 0.15) 0%,
+          rgba(59, 130, 246, 0.1) 30%,
+          rgba(59, 130, 246, 0.05) 60%,
+          transparent 100%
+        );
+        filter: blur(15px);
+        border-radius: 50%;
+        z-index: -1;
+        opacity: 0.8;
+      }
+
+      .card::after {
+        content: '';
+        position: absolute;
+        bottom: -94%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 80px;
+        background: radial-gradient(
+          ellipse,
+          rgba(96, 165, 250, 0.4) 0%,
+          rgba(96, 165, 250, 0.2) 40%,
+          transparent 100%
+        );
+        filter: blur(10px);
+        border-radius: 50%;
+        z-index: -1;
+        opacity: 0.8;
+      }
+
+      .card:hover {
+        border-color: rgba(59, 130, 246, 0.4);
+        background: rgba(24, 24, 27, 0.8);
+        color: #fff;
+      }
+
+      .card:hover::before {
+        opacity: 1;
+        width: 200px;
+        height: 140px;
+        background: radial-gradient(
+          ellipse,
+          rgba(59, 130, 246, 0.2) 0%,
+          rgba(59, 130, 246, 0.15) 30%,
+          rgba(59, 130, 246, 0.1) 60%,
+          transparent 100%
+        );
+      }
+
+      .card:hover::after {
+        opacity: 1;
+        width: 120px;
+        height: 100px;
+        background: radial-gradient(
+          ellipse,
+          rgba(96, 165, 250, 0.5) 0%,
+          rgba(96, 165, 250, 0.3) 40%,
+          transparent 100%
+        );
+      }
+
+      .card-icon {
+        font-size: 1.5em;
+        margin-bottom: 0.5rem;
+        color: #60A5FA;
+      }
+
+      .bg-gradient {
+        background: linear-gradient(145deg, #09090b, #18181b);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in {
+        animation: fadeIn 0.6s ease forwards;
+      }
+
+      .delay-100 {
+        animation-delay: 0.1s;
+      }
+      .delay-200 {
+        animation-delay: 0.2s;
+      }
+      .delay-300 {
+        animation-delay: 0.3s;
+      }
+
+      /* Support section styles */
+      .support-wrapper {
+        margin-top: 1rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      details {
+        width: 100%;
+      }
+
+      summary {
+        cursor: pointer;
+        list-style: none;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        background: rgba(24, 24, 27, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(63, 63, 70, 0.4);
+        border-radius: 0.5rem;
+        transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        color: #94a3b8;
+        user-select: none;
+      }
+
+      summary:hover {
+        background: rgba(24, 24, 27, 0.8);
+        border-color: rgba(59, 130, 246, 0.6);
+        color: #60A5FA;
+      }
+
+      details[open] summary {
+        color: #60A5FA;
+      }
+
+      .support-content {
+        margin-top: 1rem;
+        padding: 1.5rem;
+        background: rgba(24, 24, 27, 0.4);
+        backdrop-filter: blur(12px);
+        border-radius: 0.5rem;
+        border: 1px solid rgba(63, 63, 70, 0.4);
+        color: #94a3b8;
+        font-size: 1.125rem;
+        line-height: 1.6;
+        text-align: center;
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: opacity 0.3s ease, max-height 0.3s ease;
+      }
+
+      details[open] .support-content {
+        opacity: 1;
+        max-height: 200px; /* enough for the message */
+      }
+
+      /* Main layout */
+      .main-content {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-bottom: 100px;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient text-white">
+    <div class="main-content">
+      <div class="content-wrapper">
+        <main class="flex-grow flex items-center py-16">
+          <div class="max-w-4xl mx-auto px-6 w-full">
+            <div class="text-center mb-16 opacity-0 animate-fade-in delay-100">
+              <h1 class="text-4xl font-semibold mb-4 tracking-tight">
+                <span class="text-blue-500">PHANTOM</span> HECK
+              </h1>
+              <p class="text-zinc-400 text-lg">Features</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 opacity-0 animate-fade-in delay-200">
+              <a href="/offsets.hpp" class="card rounded-lg p-6 text-center">
+                <i class="ph ph-file-cpp card-icon"></i>
+                <h3 class="text-lg font-medium mb-2">Aimbot</h3>
+                <p class="text-zinc-400 text-sm">Bad aim? This fixes it</p>
+              </a>
+
+              <a href="/offsets.json" class="card rounded-lg p-6 text-center">
+                <i class="ph ph-brackets-curly card-icon"></i>
+                <h3 class="text-lg font-medium mb-2">ESP</h3>
+                <p class="text-zinc-400 text-sm">Know where the enemies are at all times</p>
+              </a>
+
+              <a href="/version" class="card rounded-lg p-6 text-center">
+                <i class="ph ph-tag card-icon"></i>
+                <h3 class="text-lg font-medium mb-2">etc</h3>
+                <p class="text-zinc-400 text-sm">Lorem ipsum</p>
+              </a>
+            </div>
+
+            <div class="support-wrapper opacity-0 animate-fade-in delay-300">
+              <details>
+                <summary>
+                  <i class="ph ph-heart text-blue-400 mr-2"></i>
+                  Vouch the Script
+                </summary>
+                <div class="support-content">
+                  <p>Thank you for supporting the project! Your vouch means a lot.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
